@@ -1,3 +1,7 @@
 fastapi~=0.115.6
 uvicorn==0.32.1
 uvloop==0.21.0
+SQLAlchemy==2.0.36
+sqlmodel==0.0.22
+mypy==1.13.0
+httpx==0.28.1
