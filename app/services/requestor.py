@@ -3,11 +3,7 @@ from typing import List
 
 import requests
 
-from app.models.pilot import Pilot
-from app.models.planet import Planet
-from app.models.specie import Specie
-from app.models.starship import StarShip
-from app.models.vehicle import Vehicle
+from app.models.domain import Pilot, Planet, Specie, StarShip, Vehicle
 
 BASE_URL = "https://swapi.py4e.com/api/"
 TOTAL_PAGE = 4

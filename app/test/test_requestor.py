@@ -3,12 +3,8 @@ from typing import List
 import pytest
 import requests
 
-from app.models.pilot import Pilot
-from app.models.planet import Planet
-from app.models.specie import Specie
-from app.models.starship import StarShip
-from app.models.vehicle import Vehicle
-from app.services.requestor import Requestor, TOTAL_PAGE
+from app.models.domain import Pilot, Planet, Specie, StarShip, Vehicle
+from app.services.requestor import Requestor
 
 TOTAL_RESULTS = 4
 ITEMS_PER_PAGE = 10
