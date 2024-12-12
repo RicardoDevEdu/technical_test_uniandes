@@ -10,7 +10,7 @@ class Pilot:
     mass: str
     gender: str
     birth_year: str
-    species: List[str]
-    vehicles: List[str]
-    homeworld: str
+    species: List[int]
+    vehicles: List[int]
+    homeworld: int
 

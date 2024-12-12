@@ -49,7 +49,10 @@ def mock_results_response():
             "model": "CR90 corvette",
             "name": "CR90 corvette",
             "passengers": "600",
-            "pilots": [],
+            "pilots": [
+                "https://swapi.py4e.com/api/people/10/",
+                "https://swapi.py4e.com/api/people/35/"
+            ],
             "starship_class": "corvette",
             "url": "https://swapi.py4e.com/api/starships/2/"
         }
@@ -187,14 +190,15 @@ def test_requestor_get(monkeypatch, mock_results_response):
         cost="3500000",
         velocity="950",
         load_capacity="3000000",
-        passengers="600"
+        passengers="600",
+        pilots=[10, 35]
     )
 
     mock = MockResponse(mock_results_response)
     monkeypatch.setattr(requests, "get", lambda *args, **kwargs: mock)
 
     requestor = Requestor()
-    response = requestor.starship()
+    response = requestor.starships()
 
     assert len(response) == TOTAL_RESULTS
     assert response[0] == expected_results
@@ -206,7 +210,7 @@ def test_error_requestor_get(monkeypatch, mock_results_response):
     requestor = Requestor()
 
     with pytest.raises(requests.HTTPError) as err_info:
-        requestor.starship()
+        requestor.starships()
 
     assert str(err_info.value) == "Http error"
 
@@ -218,9 +222,9 @@ def test_requestor_get_pilots(monkeypatch, mock_results_response_pilots):
         mass="84",
         gender="male",
         birth_year="24BBY",
-        homeworld="https://swapi.py4e.com/api/planets/1/",
-        species=["https://swapi.py4e.com/api/species/1/"],
-        vehicles=["https://swapi.py4e.com/api/vehicles/30/"],
+        homeworld=1,
+        species=[1],
+        vehicles=[30],
         id=9
     )
 

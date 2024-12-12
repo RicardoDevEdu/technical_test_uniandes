@@ -14,7 +14,7 @@ TOTAL_PAGE = 4
 ITEMS_PER_PAGE = 10
 
 class Requestor:
-     def starship(self) -> List[StarShip]:
+     def starships(self) -> List[StarShip]:
          start_ships: List[StarShip] = []
 
          for page in range(TOTAL_PAGE):
@@ -35,6 +35,7 @@ class Requestor:
                          velocity=starship["max_atmosphering_speed"],
                          load_capacity=starship["cargo_capacity"],
                          passengers=starship["passengers"],
+                         pilots=self._extract_id_to_list(starship["pilots"]),
                      )
                  )
 
@@ -63,13 +64,12 @@ class Requestor:
                          mass=pilot["mass"],
                          gender=pilot["gender"],
                          birth_year=pilot["birth_year"],
-                         homeworld=pilot["homeworld"],
-                         species=pilot["species"],
-                         vehicles=pilot["vehicles"],
+                         homeworld=self._extract_id(pilot["homeworld"]),
+                         species=self._extract_id_to_list(pilot["species"]),
+                         vehicles=self._extract_id_to_list(pilot["vehicles"]),
                      )
                  )
          return pilots
-
 
      def vehicles(self) -> List[Vehicle]:
          vehicles: List[Vehicle] = []
@@ -145,3 +145,9 @@ class Requestor:
          if match:
              return int(match.group(1))
          raise ValueError("id not found")
+
+     def _extract_id_to_list(self, urls: List[str])-> List[int]:
+         ids: List[int] = []
+         for url in urls:
+             ids.append(self._extract_id(url))
+         return ids

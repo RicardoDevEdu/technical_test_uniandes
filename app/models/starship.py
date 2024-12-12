@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from typing import List
+
 from sqlmodel import SQLModel, Field
 
 class StarshipModel(SQLModel, table=True):
@@ -21,3 +23,4 @@ class StarShip:
     velocity: str
     load_capacity: str
     passengers: str
+    pilots: List[int]
