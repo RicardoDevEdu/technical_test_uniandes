@@ -60,7 +60,7 @@ class Requestor:
                          mass=pilot["mass"],
                          gender=pilot["gender"],
                          birth_year=pilot["birth_year"],
-                         homeworld=self._extract_id(pilot["homeworld"]),
+                         planet=self._extract_id(pilot["homeworld"]),
                          species=self._extract_id_to_list(pilot["species"]),
                          vehicles=self._extract_id_to_list(pilot["vehicles"]),
                      )

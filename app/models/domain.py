@@ -11,7 +11,7 @@ class Pilot:
     birth_year: str
     species: List[int]
     vehicles: List[int]
-    homeworld: int
+    planet: int
 
 
 @dataclass

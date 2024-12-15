@@ -12,9 +12,37 @@ class PilotSpecieModel(SQLModel, table=True):
 class PilotVehicleModel(SQLModel, table=True):
     __tablename__ = 'pilot_vehicles'
 
-    id: int = Field(foreign_key="species.id")
+    id: int = Field(default=None, primary_key=True)
     vehicle_id: int = Field(foreign_key="vehicles.id")
     pilot_id: int = Field(foreign_key="pilots.id")
+
+
+class SpecieModel(SQLModel, table=True):
+    __tablename__ = 'species'
+
+    id: int = Field(default=None, primary_key=True)
+    name: str = Field(default=None)
+    pilots: list["PilotModel"] = Relationship(
+        back_populates='species', link_model=PilotSpecieModel
+    )
+
+
+class VehicleModel(SQLModel, table=True):
+    __tablename__ = 'vehicles'
+
+    id: int = Field(default=None, primary_key=True)
+    name: str = Field(default=None)
+    pilots: list["PilotModel"] = Relationship(
+        back_populates="vehicles", link_model=PilotVehicleModel
+    )
+
+
+class PlanetModel(SQLModel, table=True):
+    __tablename__ = 'planets'
+
+    id: int = Field(default=None, primary_key=True)
+    name: str = Field(default=None)
+    pilots: list["PilotModel"] = Relationship(back_populates="planet")
 
 
 class PilotModel(SQLModel, table=True):
@@ -29,30 +57,11 @@ class PilotModel(SQLModel, table=True):
     species: list["SpecieModel"] = Relationship(
         back_populates="pilots", link_model=PilotSpecieModel
     )
-
-
-class SpecieModel(SQLModel, table=True):
-    __tablename__ = 'species'
-
-    id: int = Field(default=None, primary_key=True)
-    name: str = Field(default=None)
-    pilots: list[PilotModel] = Relationship(
-        back_populates='species', link_model=PilotSpecieModel
+    vehicles: list["VehicleModel"] = Relationship(
+        back_populates="pilots", link_model=PilotVehicleModel
     )
-
-
-class VehicleModel(SQLModel, table=True):
-    __tablename__ = 'vehicles'
-
-    id: int = Field(default=None, primary_key=True)
-    name: str = Field(default=None)
-
-
-class PlanetModel(SQLModel, table=True):
-    __tablename__ = 'planets'
-
-    id: int = Field(default=None, primary_key=True)
-    name: str = Field(default=None)
+    planet_id: int = Field(foreign_key="planets.id")
+    planet: "PlanetModel" = Relationship(back_populates="pilots")
 
 
 class StarshipModel(SQLModel, table=True):
