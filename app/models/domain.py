@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
+
 
 @dataclass
 class Pilot:
-    id:int
     name: str
     height: str
     mass: str
@@ -12,18 +12,19 @@ class Pilot:
     species: List[int]
     vehicles: List[int]
     planet: int
+    id: Optional[int] = None
 
 
 @dataclass
 class Planet:
-    id: int
     name: str
+    id: Optional[int] = None
 
 
 @dataclass
 class Specie:
-    id:int
     name: str
+    id: Optional[int] = None
 
 
 @dataclass
@@ -35,9 +36,10 @@ class StarShip:
     load_capacity: str
     passengers: str
     pilots: List[int]
+    id: Optional[int] = None
 
 
 @dataclass
 class Vehicle:
-    id: int
     name: str
+    id: Optional[int] = None

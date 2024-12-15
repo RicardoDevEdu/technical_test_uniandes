@@ -218,10 +218,10 @@ def test_requestor_get_pilots(monkeypatch, mock_results_response_pilots):
         mass="84",
         gender="male",
         birth_year="24BBY",
-        homeworld=1,
+        planet=1,
         species=[1],
         vehicles=[30],
-        id=9
+        id = 9
     )
 
     mock = MockResponse(mock_results_response_pilots)

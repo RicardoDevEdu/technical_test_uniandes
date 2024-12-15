@@ -1,6 +1,5 @@
 from sqlmodel import SQLModel, Field, Relationship
 
-
 class PilotSpecieModel(SQLModel, table=True):
     __tablename__ = 'pilot_species'
 

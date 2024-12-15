@@ -25,6 +25,7 @@ class Storage:
         self.session_db.add_all(starship_model)
         self.session_db.commit()
 
+
     def vehicles(self, vehicles: List[Vehicle]) -> None:
         vehicles_model: List[VehicleModel] = []
         for vehicle in vehicles:
@@ -32,6 +33,7 @@ class Storage:
 
         self.session_db.add_all(vehicles_model)
         self.session_db.commit()
+
 
     def pilots(self, pilots: List[Pilot]) -> None:
         for pilot in pilots:
@@ -74,6 +76,8 @@ class Storage:
 
         self.session_db.add_all(species_model)
         self.session_db.commit()
+        self.session_db.refresh(species_model)
+
 
     def planets(self, planets: List[Planet]) -> None:
         planets_model: List[PlanetModel] = []
