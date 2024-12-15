@@ -133,7 +133,6 @@ def test_storage_pilots(monkeypatch, get_session, get_session_mock_return):
 
     assert actual_calls == expected_calls
 
-
 def test_storage_species(monkeypatch, get_session, get_session_mock_return):
     service = storage.Storage(get_session)
     species: List[Specie] = [

@@ -76,7 +76,6 @@ class Storage:
 
         self.session_db.add_all(species_model)
         self.session_db.commit()
-        self.session_db.refresh(species_model)
 
 
     def planets(self, planets: List[Planet]) -> None:
