@@ -1,5 +1,7 @@
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import List, Optional, Dict
+
+from app.models.database import SpecieModel, VehicleModel, PlanetModel
 
 
 @dataclass
@@ -14,6 +16,12 @@ class Pilot:
     planet: int
     id: Optional[int] = None
 
+
+@dataclass
+class PilotResult(Pilot):
+    species: List[SpecieModel]
+    vehicles: List[VehicleModel]
+    planet: PlanetModel
 
 @dataclass
 class Planet:
@@ -35,7 +43,7 @@ class StarShip:
     velocity: str
     load_capacity: str
     passengers: str
-    pilots: List[int]
+    pilots: Optional[List[int]] = None
     id: Optional[int] = None
 
 

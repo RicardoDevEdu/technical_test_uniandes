@@ -1,9 +1,13 @@
 from typing import List
 
+from dns.e164 import query
+from sqlalchemy.orm import joinedload, aliased
+from sqlmodel import select
+
 from app.dependencies.database import SessionDep
 from app.models.database import VehicleModel, SpecieModel, PlanetModel, PilotSpecieModel, PilotModel, PilotVehicleModel, \
     StarshipModel
-from app.models.domain import Pilot, Planet, Specie, Vehicle, StarShip
+from app.models.domain import Pilot, Planet, Specie, Vehicle, StarShip, PilotResult
 
 
 class Storage:
@@ -11,7 +15,7 @@ class Storage:
         self.session_db = session_db
 
     def starships(self, starships: List[StarShip]) -> None:
-        starship_model: List[VehicleModel] = []
+        starship_model: List[StarshipModel] = []
 
         for starship in starships:
             starship_model.append(StarshipModel(
@@ -85,3 +89,112 @@ class Storage:
 
         self.session_db.add_all(planets_model)
         self.session_db.commit()
+
+
+    def get_all_starships(self) -> List[StarShip]:
+        starships: List[StarShip] = []
+        query = (
+            select(StarshipModel)
+        )
+
+        result = self.session_db.exec(query).all()
+        for starship in result:
+            starships.append(
+                StarShip(
+                    id=starship.id,
+                    name=starship.name,
+                    model=starship.model,
+                    cost=starship.cost,
+                    velocity=starship.velocity,
+                    load_capacity=starship.load_capacity,
+                    passengers=starship.passengers,
+                    pilots=[]
+                )
+            )
+
+        return starships
+
+
+    def get_starship(self, id: int) -> StarShip:
+        query = (
+            select(StarshipModel).
+            where(StarshipModel.id == id)
+        )
+
+        result = self.session_db.exec(query).first()
+        return StarShip(
+            id=result.id,
+            name=result.name,
+            model=result.model,
+            cost=result.cost,
+            velocity=result.velocity,
+            load_capacity=result.load_capacity,
+            passengers=result.passengers,
+            pilots=[]
+        )
+    
+    
+    def update_starship(self, id: int, starship: StarShip) -> StarShip:
+        query = (
+            select(StarshipModel).
+            where(StarshipModel.id == id)
+        )
+
+        result = self.session_db.exec(query).first()
+        if result is None:
+            raise Exception(f"Starship with id:{id} not found")
+
+        result.name = starship.name
+        result.model = starship.model
+        result.cost = starship.cost
+        result.velocity = starship.velocity
+        result.load_capacity = starship.load_capacity
+        result.passengers = starship.passengers
+
+        self.session_db.add(result)
+        self.session_db.commit()
+        self.session_db.refresh(result)
+
+        return StarShip(
+            id=result.id,
+            name=starship.name,
+            model=starship.model,
+            cost=starship.cost,
+            velocity=starship.velocity,
+            load_capacity=starship.load_capacity,
+            passengers=starship.passengers,
+        )
+
+
+    def get_all_pilots(self) -> List[PilotResult]:
+        pilots: List[PilotResult] = []
+        query = (
+            select(
+                PilotModel
+            )
+            .options(
+                joinedload(PilotModel.species),
+                joinedload(PilotModel.vehicles),
+                joinedload(PilotModel.planet)
+            )
+        )
+
+        results = self.session_db.exec(query).unique()
+
+        for  pilot in results:
+            pilots.append(
+                PilotResult(
+                    id=pilot.id,
+                    name=pilot.name,
+                    height=pilot.height,
+                    mass=pilot.mass,
+                    gender=pilot.gender,
+                    birth_year=pilot.birth_year,
+                    species=pilot.species,
+                    vehicles=pilot.vehicles,
+                    planet=pilot.planet,
+                )
+            )
+
+        return pilots
+

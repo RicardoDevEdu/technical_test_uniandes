@@ -9,7 +9,7 @@ from app.services.storage import Storage
 
 router = APIRouter()
 
-@router.post("/api/migrations", response_model=dict)
+@router.post("/migrations", response_model=dict)
 async def init_migrations(request = Depends(Requestor), store = Depends(Storage)):
     migrations = MigrationHandler(request, store)
     result = migrations.start()
