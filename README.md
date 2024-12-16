@@ -9,3 +9,5 @@
  
 ## Check typing
 `mypy app/`
+
+![diagrama drawio](https://github.com/user-attachments/assets/053f72d6-2710-49d0-b235-cb912f00b34c)
