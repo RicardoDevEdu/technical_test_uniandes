@@ -12,7 +12,7 @@ def get_session():
         yield session
 
 def create_tables(app: FastAPI):
-    #SQLModel.metadata.drop_all(engine)
+    SQLModel.metadata.drop_all(engine)
     SQLModel.metadata.create_all(engine, checkfirst=True)
     yield
 

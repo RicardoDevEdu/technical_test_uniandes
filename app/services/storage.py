@@ -1,7 +1,6 @@
 from typing import List
 
-from dns.e164 import query
-from sqlalchemy.orm import joinedload, aliased
+from sqlalchemy.orm import joinedload
 from sqlmodel import select
 
 from app.dependencies.database import SessionDep

@@ -8,7 +8,7 @@ from app.services.storage import Storage
 
 router = APIRouter()
 
-@router.get("/pilots" , response_model=List[PilotResult])
+@router.get("/pilots" , response_model=List[PilotResult], summary="Get all pilots.")
 def get_pilots(storage = Depends(Storage)) -> List[PilotResult]:
     handler = PilotHandler(storage)
 
